@@ -2,7 +2,7 @@
 <html>
     <head>
         <title>Sets Importer</title>
-  </head>
+	</head>
 	<style type="text/css">
 	body {
 		font: 13px Verdana, sans-serif
@@ -136,10 +136,18 @@
 				for (var f=0; f<item2.length; f++) {
 					itemlist += '<option>' + $(item2[f]).html() + '</option>';
 				}
+				var findnature = $(r[setno]).find('td').length-1;
+				var nature = $(r[setno]).find('td')[findnature];
+				var nature2 = $(nature).find('a');
+				var naturelist;
+				for (var n=0; n<nature2.length; n++) {
+					naturelist += '<option>' + $(nature2[n]).html() + '</option>';
+				}
 				var s = $(r[setno]).find('td');
 				var t = $(s[1]).html();
 				$('#ability1').html(abilitylist);
 				$('#item1').html(itemlist);
+				$('#nature1').html(naturelist);
 				alert("Done!");
 			});
 		}
@@ -155,6 +163,8 @@
 		Tier: <select id="tier1"></select>
 		Ability: <select id="ability1"></select>
 		Item: <select id="item1"></select>
+		Nature: <select id="nature1"></select>
+		
 		
 		
 		</form>
