@@ -1,0 +1,693 @@
+[title]
+SmogDex Team Builder
+[head]
+	<style type="text/css">
+	.wrapper {
+            padding: 15px 15px;
+			border: 3px solid #745A7B;
+			-webkit-border-radius: 12px;
+			-moz-border-radius: 12px;
+			border-radius: 12px;
+			font-weight: bold;
+			width: 750px;
+			background-color: #9B78A5;
+			-webkit-box-shadow: 7px 7px 10px #97999c;
+			-moz-box-shadow: 7px 7px 10px #97999c;
+            box-shadow: 7px 7px 10px #97999c;
+		}
+	.container1 {
+		margin-bottom: 65px;
+	}
+	.spriteholder {
+		margin: 0px 10px 10px 10px;
+		border: 2px solid #4b4b96;
+		width: 100px;
+		height: 100px;
+		text-align: center;
+		display: table-cell;
+		vertical-align: middle;
+		background-color: #FFFFFF;
+	}
+	.buildpkmn {
+		margin: 5px 10px;
+		border: 2px solid #4b4b96;
+		background-color: #d2d2f5;
+		padding: 15px 15px;
+		color: #4b4b96;
+	}
+	.pkmn, .tier, .set, .ability, .item, .nature, .move {
+		width: 100px;
+	}
+	textarea {
+		height: 500px;
+		width: 300px;
+		margin-left: 10px;
+	}
+	</style>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+	<script type="text/javascript">
+		//<![CDATA[
+		$(document).ready(function() {
+			var PokemonArray = ["Abomasnow", "Abra", "Absol", "Accelgor", "Aerodactyl", "Aggron", "Aipom", "Alakazam", "Alomomola", "Altaria", "Ambipom", "Amoonguss", "Ampharos", "Anorith", "Arbok", "Arcanine", "Arceus-Bug", "Arceus-Dark", "Arceus-Dragon", "Arceus-Electric", "Arceus-Fighting", "Arceus-Fire", "Arceus-Flying", "Arceus-Ghost", "Arceus-Grass", "Arceus-Ground", "Arceus-Ice", "Arceus-Normal", "Arceus-Poison", "Arceus-Psychic", "Arceus-Rock", "Arceus-Steel", "Arceus-Water", "Archen", "Archeops", "Ariados", "Armaldo", "Aron", "Articuno", "Audino", "Axew", "Azelf", "Azumarill", "Azurill", "Bagon", "Baltoy", "Banette", "Barboach", "Basculin", "Basculin-B", "Bastiodon", "Bayleef", "Beartic", "Beautifly", "Beedrill", "Beheeyem", "Beldum", "Bellossom", "Bellsprout", "Bibarel", "Bidoof", "Bisharp", "Blastoise", "Blaziken", "Blissey", "Blitzle", "Boldore", "Bonsly", "Bouffalant", "Braviary", "Breloom", "Bronzong", "Bronzor", "Budew", "Buizel", "Bulbasaur", "Buneary", "Burmy", "Butterfree", "Cacnea", "Cacturne", "Camerupt", "Carnivine", "Carracosta", "Carvanha", "Cascoon", "Castform", "Caterpie", "Celebi", "Chandelure", "Chansey", "Charizard", "Charmander", "Charmeleon", "Chatot", "Cherrim", "Cherubi", "Chikorita", "Chimchar", "Chimecho", "Chinchou", "Chingling", "Cinccino", "Clamperl", "Claydol", "Clefable", "Clefairy", "Cleffa", "Cloyster", "Cobalion", "Cofagrigus", "Combee", "Combusken", "Conkeldurr", "Corphish", "Corsola", "Cottonee", "Cradily", "Cranidos", "Crawdaunt", "Cresselia", "Croagunk", "Crobat", "Croconaw", "Crustle", "Cryogonal", "Cubchoo", "Cubone", "Cyndaquil", "Darkrai", "Darmanitan (Standard Mode)", "Darmanitan-Z (Zen Mode)", "Darumaka", "Deerling", "Deino", "Delcatty", "Delibird", "Deoxys", "Deoxys-A", "Deoxys-D", "Deoxys-S", "Dewgong", "Dewott", "Dialga", "Diglett", "Ditto", "Dodrio", "Doduo", "Donphan", "Dragonair", "Dragonite", "Drapion", "Dratini", "Drifblim", "Drifloon", "Drilbur", "Drowzee", "Druddigon", "Ducklett", "Dugtrio", "Dunsparce", "Duosion", "Durant", "Dusclops", "Dusknoir", "Duskull", "Dustox", "Dwebble", "Eelektrik", "Eelektross", "Eevee", "Ekans", "Electabuzz", "Electivire", "Electrike", "Electrode", "Elekid", "Elgyem", "Emboar", "Emolga", "Empoleon", "Entei", "Escavalier", "Espeon", "Excadrill", "Exeggcute", "Exeggutor", "Exploud", "Farfetch'd", "Fearow", "Feebas", "Feraligatr", "Ferroseed", "Ferrothorn", "Finneon", "Flaaffy", "Flareon", "Floatzel", "Flygon", "Foongus", "Forretress", "Fraxure", "Frillish", "Froslass", "Furret", "Gabite", "Gallade", "Galvantula", "Garbodor", "Garchomp", "Gardevoir", "Gastly", "Gastrodon", "Genesect", "Gengar", "Geodude", "Gible", "Gigalith", "Girafarig", "Giratina", "Giratina-O", "Glaceon", "Glalie", "Glameow", "Gligar", "Gliscor", "Gloom", "Golbat", "Goldeen", "Golduck", "Golem", "Golett", "Golurk", "Gorebyss", "Gothita", "Gothitelle", "Gothorita", "Granbull", "Graveler", "Grimer", "Grotle", "Groudon", "Grovyle", "Growlithe", "Grumpig", "Gulpin", "Gurdurr", "Gyarados", "Happiny", "Hariyama", "Haunter", "Haxorus", "Heatmor", "Heatran", "Heracross", "Herdier", "Hippopotas", "Hippowdon", "Hitmonchan", "Hitmonlee", "Hitmontop", "Ho-Oh", "Honchkrow", "Hoothoot", "Hoppip", "Horsea", "Houndoom", "Houndour", "Huntail", "Hydreigon", "Hypno", "Igglybuff", "Illumise", "Infernape", "Ivysaur", "Jellicent", "Jigglypuff", "Jirachi", "Jolteon", "Joltik", "Jumpluff", "Jynx", "Kabuto", "Kabutops", "Kadabra", "Kakuna", "Kangaskhan", "Karrablast", "Kecleon", "Keldeo", "Kingdra", "Kingler", "Kirlia", "Klang", "Klink", "Klinklang", "Koffing", "Krabby", "Kricketot", "Kricketune", "Krokorok", "Krookodile", "Kyogre", "Kyurem", "Kyurem-B", "Kyurem-W", "Lairon", "Lampent", "Landorus", "Landorus-T", "Lanturn", "Lapras", "Larvesta", "Larvitar", "Latias", "Latios", "Leafeon", "Leavanny", "Ledian", "Ledyba", "Lickilicky", "Lickitung", "Liepard", "Lileep", "Lilligant", "Lillipup", "Linoone", "Litwick", "Lombre", "Lopunny", "Lotad", "Loudred", "Lucario", "Ludicolo", "Lugia", "Lumineon", "Lunatone", "Luvdisc", "Luxio", "Luxray", "Machamp", "Machoke", "Machop", "Magby", "Magcargo", "Magikarp", "Magmar", "Magmortar", "Magnemite", "Magneton", "Magnezone", "Makuhita", "Mamoswine", "Manaphy", "Mandibuzz", "Manectric", "Mankey", "Mantine", "Mantyke", "Maractus", "Mareep", "Marill", "Marowak", "Marshtomp", "Masquerain", "Mawile", "Medicham", "Meditite", "Meganium", "Meloetta", "Meloetta-P", "Meowth", "Mesprit", "Metagross", "Metang", "Metapod", "Mew", "Mewtwo", "Mienfoo", "Mienshao", "Mightyena", "Milotic", "Miltank", "Mime Jr.", "Minccino", "Minun", "Misdreavus", "Mismagius", "Moltres", "Monferno", "Mothim", "Mr. Mime", "Mudkip", "Muk", "Munchlax", "Munna", "Murkrow", "Musharna", "Natu", "Nidoking", "Nidoqueen", "Nidoran-F", "Nidoran-M", "Nidorina", "Nidorino", "Nincada", "Ninetales", "Ninjask", "Noctowl", "Nosepass", "Numel", "Nuzleaf", "Octillery", "Oddish", "Omanyte", "Omastar", "Onix", "Oshawott", "Pachirisu", "Palkia", "Palpitoad", "Panpour", "Pansage", "Pansear", "Paras", "Parasect", "Patrat", "Pawniard", "Pelipper", "Persian", "Petilil", "Phanpy", "Phione", "Pichu", "Pidgeot", "Pidgeotto", "Pidgey", "Pidove", "Pignite", "Pikachu", "Piloswine", "Pineco", "Pinsir", "Piplup", "Plusle", "Politoed", "Poliwag", "Poliwhirl", "Poliwrath", "Ponyta", "Poochyena", "Porygon", "Porygon", "Porygon-Z", "Primeape", "Prinplup", "Probopass", "Psyduck", "Pupitar", "Purrloin", "Purugly", "Quagsire", "Quilava", "Qwilfish", "Raichu", "Raikou", "Ralts", "Rampardos", "Rapidash", "Raticate", "Rattata", "Rayquaza", "Regice", "Regigigas", "Regirock", "Registeel", "Relicanth", "Remoraid", "Reshiram", "Reuniclus", "Rhydon", "Rhyhorn", "Rhyperior", "Riolu", "Roggenrola", "Roselia", "Roserade", "Rotom", "Rotom-C", "Rotom-F", "Rotom-H", "Rotom-S", "Rotom-W", "Rufflet", "Sableye", "Salamence", "Samurott", "Sandile", "Sandshrew", "Sandslash", "Sawk", "Sawsbuck", "Sceptile", "Scizor", "Scolipede", "Scrafty", "Scraggy", "Scyther", "Seadra", "Seaking", "Sealeo", "Seedot", "Seel", "Seismitoad", "Sentret", "Serperior", "Servine", "Seviper", "Sewaddle", "Sharpedo", "Shaymin", "Shaymin-S", "Shedinja", "Shelgon", "Shellder", "Shellos", "Shelmet", "Shieldon", "Shiftry", "Shinx", "Shroomish", "Shuckle", "Shuppet", "Sigilyph", "Silcoon", "Simipour", "Simisage", "Simisear", "Skarmory", "Skiploom", "Skitty", "Skorupi", "Skuntank", "Slaking", "Slakoth", "Slowbro", "Slowking", "Slowpoke", "Slugma", "Smeargle", "Smoochum", "Sneasel", "Snivy", "Snorlax", "Snorunt", "Snover", "Snubbull", "Solosis", "Solrock", "Spearow", "Spheal", "Spinarak", "Spinda", "Spiritomb", "Spoink", "Squirtle", "Stantler", "Staraptor", "Staravia", "Starly", "Starmie", "Staryu", "Steelix", "Stoutland", "Stunfisk", "Stunky", "Sudowoodo", "Suicune", "Sunflora", "Sunkern", "Surskit", "Swablu", "Swadloon", "Swalot", "Swampert", "Swanna", "Swellow", "Swinub", "Swoobat", "Taillow", "Tangela", "Tangrowth", "Tauros", "Teddiursa", "Tentacool", "Tentacruel", "Tepig", "Terrakion", "Throh", "Thudurus-T", "Thundurus", "Timburr", "Tirtouga", "Togekiss", "Togepi", "Togetic", "Torchic", "Torkoal", "Tornadus", "Tornadus-T", "Torterra", "Totodile", "Toxicroak", "Tranquill", "Trapinch", "Treecko", "Tropius", "Trubbish", "Turtwig", "Tympole", "Tynamo", "Typhlosion", "Tyranitar", "Tyrogue", "Umbreon", "Unfezant", "Unown", "Ursaring", "Uxie", "Vanillish", "Vanillite", "Vanilluxe", "Vaporeon", "Venipede", "Venomoth", "Venonat", "Venusaur", "Vespiquen", "Vibrava", "Victini", "Victreebel", "Vigoroth", "Vileplume", "Virizion", "Volbeat", "Volcarona", "Voltorb", "Vullaby", "Vulpix", "Wailmer", "Wailord", "Walrein", "Wartortle", "Watchog", "Weavile", "Weedle", "Weepinbell", "Weezing", "Whimsicott", "Whirlipede", "Whiscash", "Whismur", "Wigglytuff", "Wingull", "Wobbuffet", "Woobat", "Wooper", "Wormadam", "Wormadam-G", "Wormadam-S", "Wurmple", "Wynaut", "Xatu", "Yamask", "Yanma", "Yanmega", "Zangoose", "Zapdos", "Zebstrika", "Zekrom", "Zigzagoon", "Zoroark", "Zorua", "Zubat", "Zweilous"];
+			var pokemonlist = '<option></option>';
+			for (var i=0; i<PokemonArray.length; i++) {
+				pokemonlist += '<option>' + PokemonArray[i] + '</option>';
+			}
+			$('.pkmn').each(function() {
+				$(this).html(pokemonlist);
+			});
+		});
+		function choosemon(pkmnno) {
+			var TierArray = ["Doubles","Little Cup","Neverused","Overused","Rarelyused","Uber","Underused","VGC &#39;11","VGC &#39;12"];
+			var TierArray2 = ["doubles","lc","nu","ou","ru","uber","uu","vgc2011","vgc2012"];
+			var TierChosen = $($('.buildpkmn')[pkmnno]).find('.tier').val();
+			var tier = '';
+			var PokemonChosen = $('.pkmn option:selected').eq(pkmnno).val();
+			PokemonChosen = PokemonChosen.toLowerCase();
+			if (PokemonChosen === "farfetch'd") {
+				PokemonChosen = 'farfetchd';
+			}
+			else if (PokemonChosen === "mr. mime") {
+				PokemonChosen = "mr_mime";
+			}
+			else if (PokemonChosen === "mime jr.") {
+				PokemonChosen = "mime_jr";
+			}			
+			/*for (var i=0; i<TierArray.length; i++) {
+				var tierrg = new RegExp(TierArray[i]);
+				if (tierrg.test(TierChosen) === true) {
+					tier = TierArray2[i];
+				}
+			}*/
+			if ($('.pkmn')[pkmnno].selectedIndex !== 0) {
+			for (var i=0; i<TierArray.length; i++) {
+				var tierrg = new RegExp(TierArray[i]);
+				if (tierrg.test(TierChosen) === true) {
+					tier = TierArray2[i];
+				}
+			}
+			$.get("/bw/pokemon/" + PokemonChosen, function(data) {
+				step1(data, pkmnno);
+			});		
+			}
+			else {
+			$($('.tier')[pkmnno]).html('');
+			$($('.ability')[pkmnno]).html('');
+			$($('.item')[pkmnno]).html('');
+			$($('.nature')[pkmnno]).html('');
+			$($('.set')[pkmnno]).html('');
+			$('.buildpkmn').eq(pkmnno).find('.EV').each(function() {$(this).val('0');});
+			$('.buildpkmn').eq(pkmnno).find('.IV').each(function() {$(this).val('31');});
+			$('.buildpkmn').eq(pkmnno).find('.move').each(function() {$(this).html('');});
+			$('.buildpkmn').eq(pkmnno).find('.spriteholder').html('');	
+			}
+		}
+		function choosetier(pkmnno) {
+			var TierArray = ["Doubles","Little Cup","Neverused","Overused","Rarelyused","Uber","Underused","VGC '11","VGC '12"];
+			var TierArray2 = ["doubles","lc","nu","ou","ru","uber","uu","vgc2011","vgc2012"]
+			var TierChosen = $($('.buildpkmn')[pkmnno]).find('.tier').val();
+			var tier = '';
+			var PokemonChosen = $('.pkmn option:selected').eq(pkmnno).val();
+			PokemonChosen = PokemonChosen.toLowerCase();	
+			if (PokemonChosen === "farfetch'd") {
+				PokemonChosen = 'farfetchd';
+			}
+			else if (PokemonChosen === "mr. mime") {
+				PokemonChosen = "mr_mime";
+			}
+			else if (PokemonChosen === "mime jr.") {
+				PokemonChosen = "mime_jr";
+			}			
+			for (var i=0; i<TierArray.length; i++) {
+				var tierrg = new RegExp(TierArray[i]);
+				if (tierrg.test(TierChosen) === true) {
+					tier = TierArray2[i];
+				}
+			}
+			if (tier) {
+				tier = "/" + tier;
+			}
+			$.get("/bw/pokemon/" + PokemonChosen + tier, function(data) {
+				step1(data, pkmnno);
+			});
+		}
+		function step1(x, pkmnno) {
+			var spritehtml = $(x).find('.sprite');
+			$('.buildpkmn').eq(pkmnno).find('.spriteholder').html(spritehtml);
+			var dexset = $(x).find('.info.strategyheader').find('h2');
+			var setlist = '<option selected></option>';
+			for (var i=0; i<dexset.length; i++) {
+				setlist += '<option>'+ $(dexset[i]).html() + '</option>';
+			}
+			$($('.set')[pkmnno]).html(setlist);
+			var tierlist = '';
+			var montabs = $(x).find('.tabs');
+			var correcttab = montabs.length-1;
+			var montier = $(montabs[correcttab]).find('li');
+			tierlist = '<option>' + $(montabs[correcttab]).find('strong').html() + '</option>';
+			for (var a=0; a<montier.length; a++) {
+				if ($(montier[a]).find('a').html()) {
+				tierlist += '<option>' + $(montier[a]).find('a').html() + '</option>';		
+				}
+			}
+			$($('.tier')[pkmnno]).html(tierlist);
+			$($('.ability')[pkmnno]).html('');
+			$($('.item')[pkmnno]).html('');
+			$($('.nature')[pkmnno]).html('');
+			$('.buildpkmn').eq(pkmnno).find('.EV').each(function() {$(this).val('0');});
+			$('.buildpkmn').eq(pkmnno).find('.IV').each(function() {$(this).val('31');});
+			$('.buildpkmn').eq(pkmnno).find('.move').each(function() {$(this).html('');});
+		}
+		function findset(g) {	
+			var setno = $('.set')[g].selectedIndex-1;
+			var PokemonChosen = $('.pkmn option:selected').eq(g).val();
+			PokemonChosen = PokemonChosen.toLowerCase();
+			if (PokemonChosen === "farfetch'd") {
+				PokemonChosen = 'farfetchd';
+			}
+			else if (PokemonChosen === "mr. mime") {
+				PokemonChosen = "mr_mime";
+			}
+			else if (PokemonChosen === "mime jr.") {
+				PokemonChosen = "mime_jr";
+			}			
+			var TierArray = ["Doubles","Little Cup","Neverused","Overused","Rarelyused","Uber","Underused","VGC '11","VGC '12"];
+			var TierArray2 = ["doubles","lc","nu","ou","ru","uber","uu","vgc2011","vgc2012"];
+			var TierChosen = $('.tier option:selected').eq(g).val();
+			var tier = '';
+			for (var v=0; v<TierArray.length; v++) {
+				var tierrg = new RegExp(TierArray[v]);
+				if (tierrg.test(TierChosen) === true) {
+					tier = TierArray2[v];
+				}
+			}
+			if (tier) {
+			tier = "/" + tier;
+			}
+			$.get("/bw/pokemon/" + PokemonChosen + tier, function(data) {
+				var r = $(data).find('.info.strategyheader');
+				var hasability = $(r[setno]).find('td').length;
+			if (hasability === 3) { 
+				var ability = $(data).find('.ability').find('dt');
+				var abilitylist;
+				for (var d=0; d<ability.length; d++) {
+					abilitylist += '<option>' + $(ability[d]).find('a').html() + '</option>';
+				}
+			}
+			else {
+				var ability = $(r[setno]).find('td')[2];
+				var ability2 = $(ability).find('a');
+				var abilitylist;
+				for (var c=0; c<ability2.length; c++) {
+					abilitylist += '<option>'+ $(ability2[c]).html() + '</option>';
+				}
+			}
+				var item = $(r[setno]).find('td')[1];
+				var item2 = $(item).find('a');
+				var itemlist;
+				for (var f=0; f<item2.length; f++) {
+					itemlist += '<option>' + $(item2[f]).html() + '</option>';
+				}
+				var findnature = $(r[setno]).find('td').length-1;
+				var nature = $(r[setno]).find('td')[findnature];
+				var nature2 = $(nature).find('a');
+				var naturelist;
+				for (var n=0; n<nature2.length; n++) {
+					naturelist += '<option>' + $(nature2[n]).html() + '</option>';
+				}
+				var moves = $(data).find('.info.moveset');
+				var moveset = $(moves[setno]).find('td')[0];
+				var moveset2 = $(moveset).html();
+				var movearray = moveset2.split('~');
+				var movelist;
+				for (var i=1; i<movearray.length; i++) {
+					var tempmove = movearray[i].split(/\n\/\n/g);
+					function movefunction(tempmove, g, i){
+						for (var j=0; j<tempmove.length; j++) {
+							movelist += '<option>' + $(tempmove[j]).html() + '</option>';
+						}
+						$($($('.buildpkmn')[g]).find('.move')[i-1]).html(movelist);
+						movelist = '';
+					}
+					movefunction(tempmove, g, i);
+				}
+				var IVEV = $(moves[setno]).find('td');
+				var IV;
+				var EV;
+				if (IVEV.length === 3) {
+					IV = $(IVEV[1]).html();
+					EV = $(IVEV[2]).html();
+				}
+				else {
+					EV = $(IVEV[1]).html();
+				}
+
+				var StatArray = ['HP', 'Atk', 'Def', 'SpA', 'SpD', 'Spe'];
+				if (EV) {
+					var EVarray = EV.split('/');
+					function EVset(EVarray, StatArray) {
+
+						for (var p=0; p<EVarray.length; p++) {
+							if (p === 0) { 
+								$('.buildpkmn').eq(g).find('.EV').each(function() {$(this).val('0');});							
+							}
+							for (var q=0; q<StatArray.length; q++) {
+								var Statrg = new RegExp(StatArray[q]);
+								if (Statrg.test(EVarray[p]) === true) {
+									$($($('.buildpkmn')[g]).find('.EV')[q]).val(parseInt(EVarray[p]));
+								}
+							}
+						}
+					}
+					EVset(EVarray, StatArray);
+				}
+				if (IV) {
+					var IVarray = IV.split('/');
+					function IVset(IVarray, StatArray) {
+						for (var p=0; p<IVarray.length; p++) {
+							if (p === 0) { 
+								$('.buildpkmn').eq(g).find('.IV').each(function() {$(this).val('31');});							
+							}
+							for (var q=0; q<StatArray.length; q++) {
+								var Statrg = new RegExp(StatArray[q]);
+								if (Statrg.test(IVarray[p]) === true) {
+									$($($('.buildpkmn')[g]).find('.IV')[q]).val(parseInt(IVarray[p]));
+								}
+							}
+						}
+					}
+					IVset(IVarray, StatArray);
+				}
+				if (!IV) {
+					$('.IV').each(function() {$(this).val('31');});
+				}
+				$($('.ability')[g]).html(abilitylist);
+				$($('.item')[g]).html(itemlist);
+				$($('.nature')[g]).html(naturelist);
+			});
+		}
+		function exportteam() {
+			var exporttext = '';
+			var StatArray = ['HP', 'Atk', 'Def', 'SAtk', 'SDef', 'Spd'];
+			for (var i=0; i<6; i++) {
+				var PokemonName =  $($('.buildpkmn')[i]).find('.pkmn').val();
+				if (PokemonName) {
+				var item = $($('.buildpkmn')[i]).find('.item').val();
+				var ability = $($('.buildpkmn')[i]).find('.ability').val();
+				var nature = $($('.buildpkmn')[i]).find('.nature').val();
+				var EVArray = [];
+				for (var c=0; c<6; c++) {
+					EVArray.push($('.buildpkmn').eq(i).find('.EV').eq(c).val());			
+				}
+				var EVSpread = '';
+				for (var j=0; j<6; j++) {
+					if (EVArray[j] != 0) {
+					EVSpread += EVArray[j] + ' ' + StatArray[j] + ' / ';
+					}
+				}
+				EVSpread = EVSpread.slice(0,EVSpread.length-3);
+				var IVArray = [];
+				for (var q=0; q<6; q++) {
+					IVArray.push($('.buildpkmn').eq(i).find('.IV').eq(q).val());			
+				}
+				var IVSpread = '';
+				for (var e=0; e<6; e++) {
+					if (IVArray[e] != 31) {
+					IVSpread += IVArray[e] + ' ' + StatArray[e] + ' / ';
+					}
+				}
+				if (IVSpread.length > 5) {
+					IVSpread = IVSpread.slice(0,IVSpread.length-3);
+				}
+				var moves = [];
+				for (var u=0; u<4; u++) {			
+					if ($('.buildpkmn').eq(i).find('.move option:selected').eq(u).val()) {
+						moves.push($('.buildpkmn').eq(i).find('.move option:selected').eq(u).val());
+					}
+				}
+				exporttext += PokemonName + ' @ ' + item +'\n';
+				exporttext += 'Trait: ' + ability +'\n';
+				if (EVSpread.length > 0) {
+					exporttext += 'EVs: ' + EVSpread + '\n';
+				}
+				if (IVSpread.length > 0) {
+					exporttext += 'IVs: ' + IVSpread + '\n';
+				}
+				exporttext += nature + ' Nature\n';
+				for (var n=0; n<moves.length; n++) {
+						exporttext += '- ' + moves[n] + '\n';
+				}
+				exporttext += '\n';
+			}
+			}
+			$('#export').text(exporttext);
+		}
+		//]]>
+	</script>
+[page]
+<div class="author">By <a href="/forums/members/sandshrewz.67782/">sandshrewz</a>, with help from <a href="/forums/members/toast.30562/">Toast++</a>.</div>
+	<div class="wrapper">
+		<form class="buildpkmn">
+		<table>
+		<tr>
+		<td width=535><div class="spriteholder"></div></td>
+		<td>
+		<table>
+		<tr>
+		<th></th>
+		<th>EVs</th>
+		<th>IVs</th>
+		</tr>
+		<tr>
+		<td>HP</td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		</tr>
+		<tr>
+		<td>Atk</td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		</tr>
+		<tr>
+		<td>Def</td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		</tr>
+		<tr>
+		<td>SpA</td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		</tr>
+		<tr>
+		<td>SpD</td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		</tr>
+		<tr>
+		<td>Spe</td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		</tr>
+		</table>
+		</td>
+		<table>
+		<tr>
+		<td>
+		<td>
+		<table>
+		<tr>
+		<td>Pok&eacute;mon</td><td><select class="pkmn" onchange="choosemon(0)"></select></td>
+		<td>Tier</td><td><select class="tier" onchange="choosetier(0)"></select></td>
+		<td>Moveset</td><td><select class="set" onchange="findset(0)"></select></td>
+		</tr>
+		<tr>
+		<td>Ability</td><td><select class="ability"></td>
+		<td>Item</td><td><select class="item"></select></td>
+		<td>Nature</td><td><select class="nature"></select></td>
+		</tr>
+		<tr>
+		<td>Move 1</td><td><select class="move"></select></td>
+		<td>Move 2</td><td><select class="move"></select></td>
+		<td>Move 3</td><td><select class="move"></select></td>
+		<td>Move 4</td><td><select class="move"></select></td>
+		</tr>
+		</table>
+		</td>
+		</tr>
+		</table>
+		</form>
+		<form class="buildpkmn">
+		<table>
+		<tr>
+		<td width=535><div class="spriteholder"></div></td>
+		<td>
+		<table>
+		<tr>
+		<th></th>
+		<th>EVs</th>
+		<th>IVs</th>
+		</tr>
+		<tr>
+		<td>HP</td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		</tr>
+		<tr>
+		<td>Atk</td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		</tr>
+		<tr>
+		<td>Def</td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		</tr>
+		<tr>
+		<td>SpA</td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		</tr>
+		<tr>
+		<td>SpD</td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		</tr>
+		<tr>
+		<td>Spe</td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		</tr>
+		</table>
+		</td>
+		<table>
+		<tr>
+		<td>
+		<td>
+		<table>
+		<tr>
+		<td>Pok&eacute;mon</td><td><select class="pkmn" onchange="choosemon(1)"></select></td>
+		<td>Tier</td><td><select class="tier" onchange="choosetier(1)"></select></td>
+		<td>Moveset</td><td><select class="set" onchange="findset(1)"></select></td>
+		</tr>
+		<tr>
+		<td>Ability</td><td><select class="ability"></td>
+		<td>Item</td><td><select class="item"></select></td>
+		<td>Nature</td><td><select class="nature"></select></td>
+		</tr>
+		<tr>
+		<td>Move 1</td><td><select class="move"></select></td>
+		<td>Move 2</td><td><select class="move"></select></td>
+		<td>Move 3</td><td><select class="move"></select></td>
+		<td>Move 4</td><td><select class="move"></select></td>
+		</tr>
+		</table>
+		</td>
+		</tr>
+		</table>
+		</form>		<form class="buildpkmn">
+		<table>
+		<tr>
+		<td width=535><div class="spriteholder"></div></td>
+		<td>
+		<table>
+		<tr>
+		<th></th>
+		<th>EVs</th>
+		<th>IVs</th>
+		</tr>
+		<tr>
+		<td>HP</td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		</tr>
+		<tr>
+		<td>Atk</td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		</tr>
+		<tr>
+		<td>Def</td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		</tr>
+		<tr>
+		<td>SpA</td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		</tr>
+		<tr>
+		<td>SpD</td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		</tr>
+		<tr>
+		<td>Spe</td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		</tr>
+		</table>
+		</td>
+		<table>
+		<tr>
+		<td>
+		<td>
+		<table>
+		<tr>
+		<td>Pok&eacute;mon</td><td><select class="pkmn" onchange="choosemon(2)"></select></td>
+		<td>Tier</td><td><select class="tier" onchange="choosetier(2)"></select></td>
+		<td>Moveset</td><td><select class="set" onchange="findset(2)"></select></td>
+		</tr>
+		<tr>
+		<td>Ability</td><td><select class="ability"></td>
+		<td>Item</td><td><select class="item"></select></td>
+		<td>Nature</td><td><select class="nature"></select></td>
+		</tr>
+		<tr>
+		<td>Move 1</td><td><select class="move"></select></td>
+		<td>Move 2</td><td><select class="move"></select></td>
+		<td>Move 3</td><td><select class="move"></select></td>
+		<td>Move 4</td><td><select class="move"></select></td>
+		</tr>
+		</table>
+		</td>
+		</tr>
+		</table>
+		</form>
+		<form class="buildpkmn">
+		<table>
+		<tr>
+		<td width=535><div class="spriteholder"></div></td>
+		<td>
+		<table>
+		<tr>
+		<th></th>
+		<th>EVs</th>
+		<th>IVs</th>
+		</tr>
+		<tr>
+		<td>HP</td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		</tr>
+		<tr>
+		<td>Atk</td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		</tr>
+		<tr>
+		<td>Def</td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		</tr>
+		<tr>
+		<td>SpA</td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		</tr>
+		<tr>
+		<td>SpD</td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		</tr>
+		<tr>
+		<td>Spe</td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		</tr>
+		</table>
+		</td>
+		<table>
+		<tr>
+		<td>
+		<td>
+		<table>
+		<tr>
+		<td>Pok&eacute;mon</td><td><select class="pkmn" onchange="choosemon(3)"></select></td>
+		<td>Tier</td><td><select class="tier" onchange="choosetier(3)"></select></td>
+		<td>Moveset</td><td><select class="set" onchange="findset(3)"></select></td>
+		</tr>
+		<tr>
+		<td>Ability</td><td><select class="ability"></td>
+		<td>Item</td><td><select class="item"></select></td>
+		<td>Nature</td><td><select class="nature"></select></td>
+		</tr>
+		<tr>
+		<td>Move 1</td><td><select class="move"></select></td>
+		<td>Move 2</td><td><select class="move"></select></td>
+		<td>Move 3</td><td><select class="move"></select></td>
+		<td>Move 4</td><td><select class="move"></select></td>
+		</tr>
+		</table>
+		</td>
+		</tr>
+		</table>
+		</form>
+		<form class="buildpkmn">
+		<table>
+		<tr>
+		<td width=535><div class="spriteholder"></div></td>
+		<td>
+		<table>
+		<tr>
+		<th></th>
+		<th>EVs</th>
+		<th>IVs</th>
+		</tr>
+		<tr>
+		<td>HP</td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		</tr>
+		<tr>
+		<td>Atk</td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		</tr>
+		<tr>
+		<td>Def</td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		</tr>
+		<tr>
+		<td>SpA</td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		</tr>
+		<tr>
+		<td>SpD</td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		</tr>
+		<tr>
+		<td>Spe</td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		</tr>
+		</table>
+		</td>
+		<table>
+		<tr>
+		<td>
+		<td>
+		<table>
+		<tr>
+		<td>Pok&eacute;mon</td><td><select class="pkmn" onchange="choosemon(4)"></select></td>
+		<td>Tier</td><td><select class="tier" onchange="choosetier(4)"></select></td>
+		<td>Moveset</td><td><select class="set" onchange="findset(4)"></select></td>
+		</tr>
+		<tr>
+		<td>Ability</td><td><select class="ability"></td>
+		<td>Item</td><td><select class="item"></select></td>
+		<td>Nature</td><td><select class="nature"></select></td>
+		</tr>
+		<tr>
+		<td>Move 1</td><td><select class="move"></select></td>
+		<td>Move 2</td><td><select class="move"></select></td>
+		<td>Move 3</td><td><select class="move"></select></td>
+		<td>Move 4</td><td><select class="move"></select></td>
+		</tr>
+		</table>
+		</td>
+		</tr>
+		</table>
+		</form>
+		<form class="buildpkmn">
+		<table>
+		<tr>
+		<td width=535><div class="spriteholder"></div></td>
+		<td>
+		<table>
+		<tr>
+		<th></th>
+		<th>EVs</th>
+		<th>IVs</th>
+		</tr>
+		<tr>
+		<td>HP</td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		</tr>
+		<tr>
+		<td>Atk</td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		</tr>
+		<tr>
+		<td>Def</td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		</tr>
+		<tr>
+		<td>SpA</td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		</tr>
+		<tr>
+		<td>SpD</td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		</tr>
+		<tr>
+		<td>Spe</td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		</tr>
+		</table>
+		</td>
+		<table>
+		<tr>
+		<td>
+		<td>
+		<table>
+		<tr>
+		<td>Pok&eacute;mon</td><td><select class="pkmn" onchange="choosemon(5)"></select></td>
+		<td>Tier</td><td><select class="tier" onchange="choosetier(5)"></select></td>
+		<td>Moveset</td><td><select class="set" onchange="findset(5)"></select></td>
+		</tr>
+		<tr>
+		<td>Ability</td><td><select class="ability"></td>
+		<td>Item</td><td><select class="item"></select></td>
+		<td>Nature</td><td><select class="nature"></select></td>
+		</tr>
+		<tr>
+		<td>Move 1</td><td><select class="move"></select></td>
+		<td>Move 2</td><td><select class="move"></select></td>
+		<td>Move 3</td><td><select class="move"></select></td>
+		<td>Move 4</td><td><select class="move"></select></td>
+		</tr>
+		</table>
+		</td>
+		</tr>
+		</table>
+		</form>
+		<input type="button" onclick="exportteam()" value="Export!" style="margin-left: 10px; margin-bottom:5px;" /><br />
+		<textarea id="export"></textarea>
+	</div>
