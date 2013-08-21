@@ -1,6 +1,6 @@
-SmogDex-Teambuilder
+SmogDex-Team-Builder
 ===================
 
-A Pokemon teambuilder based on Smogon's StrategyDex
+A Pokemon teambuilder based on Smogon's StrategyDex hosted on http://www.smogon.com/teambuilder/
 
-There's nothing to read here for now~
+Done by sandshrewz, with help from Toast++
