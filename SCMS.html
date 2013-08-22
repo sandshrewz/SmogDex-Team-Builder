@@ -98,6 +98,7 @@ SmogDex Team Builder
 			$($('.item')[pkmnno]).html('');
 			$($('.nature')[pkmnno]).html('');
 			$($('.set')[pkmnno]).html('');
+			$($('.level')[pkmnno]).val('');
 			$('.buildpkmn').eq(pkmnno).find('.EV').each(function() {$(this).val('0');});
 			$('.buildpkmn').eq(pkmnno).find('.IV').each(function() {$(this).val('31');});
 			$('.buildpkmn').eq(pkmnno).find('.move').each(function() {$(this).html('');});
@@ -156,6 +157,7 @@ SmogDex Team Builder
 			$($('.ability')[pkmnno]).html('');
 			$($('.item')[pkmnno]).html('');
 			$($('.nature')[pkmnno]).html('');
+			$($('.level')[pkmnno]).val('');
 			$('.buildpkmn').eq(pkmnno).find('.EV').each(function() {$(this).val('0');});
 			$('.buildpkmn').eq(pkmnno).find('.IV').each(function() {$(this).val('31');});
 			$('.buildpkmn').eq(pkmnno).find('.move').each(function() {$(this).html('');});
@@ -283,9 +285,22 @@ SmogDex Team Builder
 				if (!IV) {
 					$('.IV').each(function() {$(this).val('31');});
 				}
+
+				var tier = $($('.tier')[g]).val();
+				var level = '';
+				if (tier === 'Little Cup') {
+					level = '5';
+				}
+				else if (tier === "VGC '12" || tier === "VGC '13") {
+					level = '50';
+				}
+				else {
+					level = '100';
+				}
 				$($('.ability')[g]).html(abilitylist);
 				$($('.item')[g]).html(itemlist);
 				$($('.nature')[g]).html(naturelist);
+				$($('.level')[g]).val(level);
 			});
 		}
 		function exportteam() {
@@ -327,8 +342,12 @@ SmogDex Team Builder
 						moves.push($('.buildpkmn').eq(i).find('.move option:selected').eq(u).val());
 					}
 				}
+				var level = $($('.level')[i]).val();
 				exporttext += PokemonName + ' @ ' + item +'\n';
 				exporttext += 'Trait: ' + ability +'\n';
+				if (level !== '100') {
+					exporttext += 'Level: ' + level +'\n';
+				}
 				if (EVSpread.length > 0) {
 					exporttext += 'EVs: ' + EVSpread + '\n';
 				}
@@ -394,6 +413,7 @@ SmogDex Team Builder
 		<td>Ability</td><td><select class="ability"></td>
 		<td>Item</td><td><select class="item"></select></td>
 		<td>Nature</td><td><select class="nature"></select></td>
+		<td>Level</td><td><input value="" type="text" size="3" class="level"></td>
 		</tr>
 		<tr>
 		<td>Move 1</td><td><select class="move"></select></td>
@@ -451,6 +471,7 @@ SmogDex Team Builder
 		<td>Ability</td><td><select class="ability"></td>
 		<td>Item</td><td><select class="item"></select></td>
 		<td>Nature</td><td><select class="nature"></select></td>
+		<td>Level</td><td><input value="" type="text" size="3" class="level"></td>
 		</tr>
 		<tr>
 		<td>Move 1</td><td><select class="move"></select></td>
@@ -507,6 +528,7 @@ SmogDex Team Builder
 		<td>Ability</td><td><select class="ability"></td>
 		<td>Item</td><td><select class="item"></select></td>
 		<td>Nature</td><td><select class="nature"></select></td>
+		<td>Level</td><td><input value="" type="text" size="3" class="level"></td>
 		</tr>
 		<tr>
 		<td>Move 1</td><td><select class="move"></select></td>
@@ -564,6 +586,7 @@ SmogDex Team Builder
 		<td>Ability</td><td><select class="ability"></td>
 		<td>Item</td><td><select class="item"></select></td>
 		<td>Nature</td><td><select class="nature"></select></td>
+		<td>Level</td><td><input value="" type="text" size="3" class="level"></td>
 		</tr>
 		<tr>
 		<td>Move 1</td><td><select class="move"></select></td>
@@ -621,6 +644,7 @@ SmogDex Team Builder
 		<td>Ability</td><td><select class="ability"></td>
 		<td>Item</td><td><select class="item"></select></td>
 		<td>Nature</td><td><select class="nature"></select></td>
+		<td>Level</td><td><input value="" type="text" size="3" class="level"></td>
 		</tr>
 		<tr>
 		<td>Move 1</td><td><select class="move"></select></td>
@@ -678,6 +702,7 @@ SmogDex Team Builder
 		<td>Ability</td><td><select class="ability"></td>
 		<td>Item</td><td><select class="item"></select></td>
 		<td>Nature</td><td><select class="nature"></select></td>
+		<td>Level</td><td><input value="" type="text" size="3" class="level"></td>
 		</tr>
 		<tr>
 		<td>Move 1</td><td><select class="move"></select></td>
