@@ -173,7 +173,7 @@ SmogDex Team Builder
 			}			
 			var TierArray = ["Doubles","Little Cup","Neverused","Overused","Rarelyused","Uber","Underused","VGC '11","VGC '12"];
 			var TierArray2 = ["doubles","lc","nu","ou","ru","uber","uu","vgc2011","vgc2012"];
-			var TierChosen = $($('.buildpkmn')[pkmnno]).find('.tier').val();
+			var TierChosen = $($('.buildpkmn')[g]).find('.tier').val();
 			var tier = '';
 			for (var v=0; v<TierArray.length; v++) {
 				var tierrg = new RegExp(TierArray[v]);
