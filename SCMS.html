@@ -339,7 +339,7 @@ SmogDex Team Builder
 			var StatArray = ['HP', 'Atk', 'Def', 'SAtk', 'SDef', 'Spd'];
 			for (var i=0; i<6; i++) {
 				var PokemonName =  $($('.buildpkmn')[i]).find('.pkmn').val();
-				if (PokemonName) {
+				if (PokemonName && $($('.buildpkmn')[i]).find('.set').val()) {
 				var item = $($('.buildpkmn')[i]).find('.item').val();
 				var ability = $($('.buildpkmn')[i]).find('.ability').val();
 				var nature = $($('.buildpkmn')[i]).find('.nature').val();
