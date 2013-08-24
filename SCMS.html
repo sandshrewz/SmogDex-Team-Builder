@@ -89,6 +89,22 @@ SmogDex Team Builder
 			$('.pkmn').each(function() {
 				$(this).html(pokemonlist);
 			});
+			$(".EV").each( function(){ $(this).blur( function() {
+				if($(this).val() < 0 || isNaN($(this).val())) {
+					$(this).val('0');
+				}
+				else if($(this).val() > 252) {
+					$(this).val('252');
+				}	
+			})});
+			$(".IV").each( function(){ $(this).blur( function() {
+				if($(this).val() < 0 || isNaN($(this).val())) {
+					$(this).val('0');
+				}
+				else if($(this).val() > 31) {
+					$(this).val('31');
+				}	
+			})});
 		});
 		function choosemon(pkmnno) {
 			var TierArray = ["Doubles","Little Cup","Neverused","Overused","Rarelyused","Uber","Underused","VGC &#39;11","VGC &#39;12"];
@@ -105,13 +121,7 @@ SmogDex Team Builder
 			}
 			else if (PokemonChosen === "mime jr.") {
 				PokemonChosen = "mime_jr";
-			}			
-			/*for (var i=0; i<TierArray.length; i++) {
-				var tierrg = new RegExp(TierArray[i]);
-				if (tierrg.test(TierChosen) === true) {
-					tier = TierArray2[i];
-				}
-			}*/
+			}
 			if ($('.pkmn')[pkmnno].selectedIndex !== 0) {
 			for (var i=0; i<TierArray.length; i++) {
 				var tierrg = new RegExp(TierArray[i]);
