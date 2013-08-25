@@ -90,7 +90,7 @@ SmogDex Team Builder
 				$(this).html(pokemonlist);
 			});
 			$(".EV").each( function(){ $(this).blur( function() {
-				if($(this).val() < 0 || isNaN($(this).val())) {
+				if($(this).val() < 0 || isNaN($(this).val()) || !$(this).val()) {
 					$(this).val('0');
 				}
 				else if($(this).val() > 252) {
@@ -98,7 +98,7 @@ SmogDex Team Builder
 				}	
 			})});
 			$(".IV").each( function(){ $(this).blur( function() {
-				if($(this).val() < 0 || isNaN($(this).val())) {
+				if($(this).val() < 0 || isNaN($(this).val()) || !$(this).val()) {
 					$(this).val('0');
 				}
 				else if($(this).val() > 31) {
