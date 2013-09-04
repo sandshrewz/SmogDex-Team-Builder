@@ -77,6 +77,23 @@ SmogDex Team Builder
 	.negative {
 		color: #FF0000;
 	}
+	.dexbutton {
+		text-align: center;
+		width: 150px;
+	}
+	.dexbutton a {
+		vertical-align: middle;
+		color: #4b4b96 !important;
+		background: #d2d2f5;
+		border: 3px outset #d2d2f5 !important;
+		padding: 6px;
+	}
+	.dexbutton a:hover {
+		background: #bdbdf0 !important;
+	}
+	.dexbutton a:active {
+		background: #a8a8ec;
+	}		
 	</style>
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 	<script type="text/javascript" src="http://css-tricks.com/examples/OrganicTabs/js/organictabs.jquery.js"></script>
@@ -136,6 +153,12 @@ SmogDex Team Builder
 					$(this).val('1');
 				}
 			})});
+			if ($(this).find('a[href$="/pokemon/"]').length === 1) {
+				$(this).find('.dexbutton > a').text('Go to Pokédex!');
+			}
+			else {
+				$(this).find('.dexbutton > a').text('Go to Analysis!');
+			}
 			})})();
 		});
 		function choosemon(pkmnno) {
@@ -163,7 +186,8 @@ SmogDex Team Builder
 			}
 			$.get("/bw/pokemon/" + PokemonChosen, function(data) {
 				step1(data, pkmnno);
-			});		
+			});
+			$($('.dexbutton > a')[pkmnno]).attr("href", "/bw/pokemon/" + PokemonChosen);
 			}
 			else {
 			$($('.tier')[pkmnno]).html('');
@@ -175,6 +199,7 @@ SmogDex Team Builder
 			$($('.EVleft')[pkmnno]).html('508');
 			$($('.EVleft')[pkmnno]).removeClass('negative');
 			$($('.EVleft')[pkmnno]).removeClass('positive');
+			$($('.dexbutton > a')[pkmnno]).attr("href", "/bw/pokemon/");
 			$('.buildpkmn').eq(pkmnno).find('.EV').each(function() {$(this).val('0');});
 			$('.buildpkmn').eq(pkmnno).find('.IV').each(function() {$(this).val('31');});
 			$('.buildpkmn').eq(pkmnno).find('.move').each(function() {$(this).html('');});
@@ -209,6 +234,7 @@ SmogDex Team Builder
 			$.get("/bw/pokemon/" + PokemonChosen + tier, function(data) {
 				step1(data, pkmnno);
 			});
+			$($('.dexbutton > a')[pkmnno]).attr("href", "/bw/pokemon/" + PokemonChosen + tier);
 		}
 		function step1(x, pkmnno) {
 			var spritehtml = $(x).find('.sprite');
@@ -267,6 +293,10 @@ SmogDex Team Builder
 			if (tier) {
 			tier = "/" + tier;
 			}
+			var setname = $($('.set')[g]).val();
+			setname = setname.replace(/\s/g,"_");
+			setname = '#' + setname;
+			$($('.dexbutton > a')[g]).attr("href", "/bw/pokemon/" + PokemonChosen + tier + setname);
 			$.get("/bw/pokemon/" + PokemonChosen + tier, function(data) {
 				var r = $(data).find('.info.strategyheader');
 				var hasability = $(r[setno]).find('td').length;
@@ -575,6 +605,7 @@ SmogDex Team Builder
 		</td>
 		</tr>
 		</table>
+		<div class="dexbutton"><a href="/bw/pokemon/" target="_blank"></a></div>
 		</form>
 		<form class="buildpkmn">
 		<table>
@@ -636,7 +667,9 @@ SmogDex Team Builder
 		</td>
 		</tr>
 		</table>
-		</form>		<form class="buildpkmn">
+		<div class="dexbutton"><a href="/bw/pokemon/" target="_blank"></a></div>
+		</form>
+		<form class="buildpkmn">
 		<table>
 		<tr>
 		<td width=535><div class="spriteholder"></div></td>
@@ -696,6 +729,7 @@ SmogDex Team Builder
 		</td>
 		</tr>
 		</table>
+		<div class="dexbutton"><a href="/bw/pokemon/" target="_blank"></a></div>
 		</form>
 		<form class="buildpkmn">
 		<table>
@@ -757,6 +791,7 @@ SmogDex Team Builder
 		</td>
 		</tr>
 		</table>
+		<div class="dexbutton"><a href="/bw/pokemon/" target="_blank"></a></div>
 		</form>
 		<form class="buildpkmn">
 		<table>
@@ -818,6 +853,7 @@ SmogDex Team Builder
 		</td>
 		</tr>
 		</table>
+		<div class="dexbutton"><a href="/bw/pokemon/" target="_blank"></a></div>
 		</form>
 		<form class="buildpkmn">
 		<table>
@@ -879,6 +915,7 @@ SmogDex Team Builder
 		</td>
 		</tr>
 		</table>
+		<div class="dexbutton"><a href="/bw/pokemon/" target="_blank"></a></div>
 		</form>
 		</li></ul>
 		<ul id="exporter" class="hide"><li>
