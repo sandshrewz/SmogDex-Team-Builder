@@ -511,12 +511,6 @@ SmogDex Team Builder
 				if (IVSpread.length > 5) {
 					IVSpread = IVSpread.slice(0,IVSpread.length-3);
 				}
-				var moves = [];
-				for (var u=0; u<4; u++) {			
-					if ($('.buildpkmn').eq(i).find('.move option:selected').eq(u).val()) {
-						moves.push($('.buildpkmn').eq(i).find('.move option:selected').eq(u).val());
-					}
-				}
 				var level = $($('.level')[i]).val();
 				exporttext += PokemonName + ' @ ' + item +'\n';
 				exporttext += 'Trait: ' + ability +'\n';
