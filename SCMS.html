@@ -476,8 +476,14 @@ SmogDex Team Builder
 			var exporttext = '';
 			var StatArray = ['HP', 'Atk', 'Def', 'SAtk', 'SDef', 'Spd'];
 			for (var i=0; i<6; i++) {
+				var moves = [];
+				for (var u=0; u<4; u++) {			
+					if ($('.buildpkmn').eq(i).find('.move option:selected').eq(u).val()) {
+						moves.push($('.buildpkmn').eq(i).find('.move option:selected').eq(u).val());
+					}
+				}
 				var PokemonName =  $($('.buildpkmn')[i]).find('.pkmn').val();
-				if (PokemonName && $($('.buildpkmn')[i]).find('.set').val()) {
+				if (PokemonName && $($('.buildpkmn')[i]).find('.ability').val() && moves.length > 0) {
 				var item = $($('.buildpkmn')[i]).find('.item').val();
 				var ability = $($('.buildpkmn')[i]).find('.ability').val();
 				var nature = $($('.buildpkmn')[i]).find('.nature').val();
