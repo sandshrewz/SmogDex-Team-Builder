@@ -5,21 +5,18 @@ SmogDex Teambuilder
 <meta name="author" content="sandshrewz and Toast++" />
 	<style type="text/css">
 	#wrapper {
-            padding: 15px 15px;
-			border: 3px solid #745A7B;
-			-webkit-border-radius: 12px;
-			-moz-border-radius: 12px;
-			border-radius: 12px;
-			font-weight: bold;
-			width: 750px;
-			background-color: #9B78A5;
-			-webkit-box-shadow: 7px 7px 10px #97999c;
-			-moz-box-shadow: 7px 7px 10px #97999c;
-                        box-shadow: 7px 7px 10px #97999c;
-                        margin-bottom: 10px;
-		}
-	.container1 {
-		margin-bottom: 65px;
+		padding: 15px 15px;
+		border: 3px solid #745A7B;
+		-webkit-border-radius: 12px;
+		-moz-border-radius: 12px;
+		border-radius: 12px;
+		font-weight: bold;
+		width: 750px;
+		background-color: #9B78A5;
+		-webkit-box-shadow: 7px 7px 10px #97999c;
+		-moz-box-shadow: 7px 7px 10px #97999c;
+					box-shadow: 7px 7px 10px #97999c;
+					margin-bottom: 10px;
 	}
 	.spriteholder {
 		margin: 0px 10px 10px 10px;
@@ -37,6 +34,21 @@ SmogDex Teambuilder
 		background-color: #d2d2f5;
 		padding: 15px 15px;
 		color: #4b4b96;
+	}
+	.HiddenP {
+		float: right;
+	}
+	.HPtype {
+		width: 75px;
+		background: #D3D3D3;
+		border: 1px solid #A9A9A9;
+		text-align: center;
+	}
+	.HPbp {
+		width: 30px;
+		background: #D3D3D3;
+		border: 1px solid #A9A9A9;
+		text-align: center;	
 	}
 	.pkmn, .tier, .set, .ability, .item, .nature, .move {
 		width: 100px;
@@ -97,6 +109,31 @@ SmogDex Teambuilder
 	}
 	.dexbutton a:active {
 		background: #a8a8ec;
+	}
+	#help p, #help ul li {
+		font-weight: normal !important;
+	}
+	#help a {
+		color: #9966FF !important;
+		background: none !important;
+		display: inline !important;
+		padding: 0px !important;
+	}
+	#help a:hover {
+		color: #9966cc !important;
+	}
+	#help a:active {
+		color: #996699 !important;
+	}
+	#help ul {
+		list-style-type: disc !important;
+		padding-left: 1em !important;
+	}
+	#help {
+		padding-bottom: 10px !important;
+	}
+	.help {
+		margin: 10px 10px !important;
 	}		
 	</style>
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
@@ -384,6 +421,38 @@ SmogDex Teambuilder
 					$($($('.buildpkmn')[i]).find('.pstat')[s]).val(finstat);
 				}
 			}
+			HiddenPowah(i);
+		}
+		function HiddenPowah(i) {
+			var IVArray = [];
+			for (var x=0; x<6; x++) {
+				IVArray.push(parseInt($($($('.buildpkmn')[i]).find('.IV')[x]).val()));
+			}		
+			var TypeArray = [1,2,4,16,32,8];
+			for (var y=0; y<6; y++) {
+				if (IVArray[y]%2 === 0) {
+					TypeArray[y] = 0;
+				}
+			}
+			var TypeSum = 0;
+			for (var z=0; z<6; z++) {
+				TypeSum += TypeArray[z];
+			}
+			var TypeNum = Math.floor(TypeSum*15/63);
+			var Type = ["Fighting", "Flying", "Poison", "Ground", "Rock", "Bug", "Ghost", "Steel", "Fire", "Water", "Grass", "Electric", "Psychic", "Ice", "Dragon", "Dark"];
+			var PowerArray = [1,2,4,16,32,8];
+			for (var a=0; a<6; a++) {
+				if(IVArray[a]%4 === 0 || IVArray[a]%4 === 1) {
+					PowerArray[a] = 0;
+				}
+			}
+			var PowerSum = 0;
+			for (var b=0; b<6; b++) {
+				PowerSum += PowerArray[b];
+			}
+			var Power = Math.floor(PowerSum*(40/63) + 30);
+			$($('.buildpkmn')[i]).find('.HPtype').val(Type[TypeNum]);
+			$($('.buildpkmn')[i]).find('.HPbp').val(Power);
 		}
 		function step1(x, pkmnno) {
 			var spritehtml = $(x).find('.sprite');
@@ -733,14 +802,15 @@ SmogDex Teambuilder
     		<ul class="nav">
                 <li class="nav-one"><a href="#builder" class="current">Teambuilder</a></li>
                 <li class="nav-two"><a href="#exporter">Exporter</a></li>
+				<li class="nav-three"><a href="#help">Help</a></li>
             </ul>
 	
 	<div class="list-wrap">
 		<ul id="builder"><li>
-		<form class="buildpkmn">
+		<div class="buildpkmn">
 		<table>
 		<tr>
-		<td width=535><div class="spriteholder"></div></td>
+		<td style="width: 535px;"><div class="spriteholder"></div></td>
 		<td>
 		<table>
 		<tr>
@@ -751,32 +821,30 @@ SmogDex Teambuilder
 		<th>IVs</th>
 		</tr>
 		<tr>
-		<td class="stat">HP</td><td><input value="0" type="text" size="3" class="base" readonly></td><td><input type="text" size="3" class="pstat" readonly></td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		<td class="stat">HP</td><td><input value="0" type="text" size="3" class="base" readonly="readonly" /></td><td><input type="text" size="3" class="pstat" readonly="readonly" /></td><td><input value="0" type="text" size="3" class="EV" /></td><td><input value="31" type="text" size="3" class="IV" /></td>
 		</tr>
 		<tr>
-		<td class="stat">Atk</td><td><input value="0" type="text" size="3" class="base" readonly></td><td><input type="text" size="3" class="pstat" readonly></td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		<td class="stat">Atk</td><td><input value="0" type="text" size="3" class="base" readonly="readonly" /></td><td><input type="text" size="3" class="pstat" readonly="readonly" /></td><td><input value="0" type="text" size="3" class="EV" /></td><td><input value="31" type="text" size="3" class="IV" /></td>
 		</tr>
 		<tr>
-		<td class="stat">Def</td><td><input value="0" type="text" size="3" class="base" readonly></td><td><input type="text" size="3" class="pstat" readonly></td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		<td class="stat">Def</td><td><input value="0" type="text" size="3" class="base" readonly="readonly" /></td><td><input type="text" size="3" class="pstat" readonly="readonly" /></td><td><input value="0" type="text" size="3" class="EV" /></td><td><input value="31" type="text" size="3" class="IV" /></td>
 		</tr>
 		<tr>
-		<td class="stat">SpA</td><td><input value="0" type="text" size="3" class="base" readonly></td><td><input type="text" size="3" class="pstat" readonly></td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		<td class="stat">SpA</td><td><input value="0" type="text" size="3" class="base" readonly="readonly" /></td><td><input type="text" size="3" class="pstat" readonly="readonly" /></td><td><input value="0" type="text" size="3" class="EV" /></td><td><input value="31" type="text" size="3" class="IV" /></td>
 		</tr>
 		<tr>
-		<td class="stat">SpD</td><td><input value="0" type="text" size="3" class="base" readonly></td><td><input type="text" size="3" class="pstat" readonly></td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		<td class="stat">SpD</td><td><input value="0" type="text" size="3" class="base" readonly="readonly" /></td><td><input type="text" size="3" class="pstat" readonly="readonly" /></td><td><input value="0" type="text" size="3" class="EV" /></td><td><input value="31" type="text" size="3" class="IV" /></td>
 		</tr>
 		<tr>
-		<td class="stat">Spe</td><td><input value="0" type="text" size="3" class="base" readonly></td><td><input type="text" size="3" class="pstat" readonly></td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		<td class="stat">Spe</td><td><input value="0" type="text" size="3" class="base" readonly="readonly" /></td><td><input type="text" size="3" class="pstat" readonly="readonly" /></td><td><input value="0" type="text" size="3" class="EV" /></td><td><input value="31" type="text" size="3" class="IV" /></td>
 		</tr>
 		<tr>
 		<td></td><td></td><td></td><td class="EVleft">508</td><td></td>
 		</tr>
 		</table>
 		</td>
-		<table>
-		<tr>
-		<td>
-		<td>
+		</tr>
+		</table>
 		<table>
 		<tr>
 		<td>Pok&eacute;mon</td><td><select class="pkmn" onchange="choosemon(0)"></select></td>
@@ -787,7 +855,7 @@ SmogDex Teambuilder
 		<td>Ability</td><td><select class="ability"></td>
 		<td>Item</td><td><select class="item"></select></td>
 		<td>Nature</td><td><select class="nature"></select></td>
-		<td>Level</td><td><input value="" type="text" size="3" class="level"></td>
+		<td>Level</td><td><input value="" type="text" size="3" class="level" /></td>
 		</tr>
 		<tr>
 		<td>Move 1</td><td><select class="move"></select></td>
@@ -796,15 +864,13 @@ SmogDex Teambuilder
 		<td>Move 4</td><td><select class="move"></select></td>
 		</tr>
 		</table>
-		</td>
-		</tr>
-		</table>
+		<div class="HiddenP">Hidden Power <input value="Dark" type="text" class="HPtype" readonly="readonly" />&nbsp;<input value="70" type="text" class="HPbp" readonly="readonly" /></div>
 		<div class="dexbutton"><a href="/bw/pokemon/" target="_blank"></a></div>
-		</form>
-		<form class="buildpkmn">
+		</div>
+		<div class="buildpkmn">
 		<table>
 		<tr>
-		<td width=535><div class="spriteholder"></div></td>
+		<td style="width: 535px;"><div class="spriteholder"></div></td>
 		<td>
 		<table>
 		<tr>
@@ -815,32 +881,29 @@ SmogDex Teambuilder
 		<th>IVs</th>
 		</tr>
 		<tr>
-		<td class="stat">HP</td><td><input value="0" type="text" size="3" class="base" readonly></td><td><input type="text" size="3" class="pstat" readonly></td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		<td class="stat">HP</td><td><input value="0" type="text" size="3" class="base" readonly="readonly" /></td><td><input type="text" size="3" class="pstat" readonly="readonly" /></td><td><input value="0" type="text" size="3" class="EV" /></td><td><input value="31" type="text" size="3" class="IV" /></td>
 		</tr>
 		<tr>
-		<td class="stat">Atk</td><td><input value="0" type="text" size="3" class="base" readonly></td><td><input type="text" size="3" class="pstat" readonly></td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		<td class="stat">Atk</td><td><input value="0" type="text" size="3" class="base" readonly="readonly" /></td><td><input type="text" size="3" class="pstat" readonly="readonly" /></td><td><input value="0" type="text" size="3" class="EV" /></td><td><input value="31" type="text" size="3" class="IV" /></td>
 		</tr>
 		<tr>
-		<td class="stat">Def</td><td><input value="0" type="text" size="3" class="base" readonly></td><td><input type="text" size="3" class="pstat" readonly></td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		<td class="stat">Def</td><td><input value="0" type="text" size="3" class="base" readonly="readonly" /></td><td><input type="text" size="3" class="pstat" readonly="readonly" /></td><td><input value="0" type="text" size="3" class="EV" /></td><td><input value="31" type="text" size="3" class="IV" /></td>
 		</tr>
 		<tr>
-		<td class="stat">SpA</td><td><input value="0" type="text" size="3" class="base" readonly></td><td><input type="text" size="3" class="pstat" readonly></td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		<td class="stat">SpA</td><td><input value="0" type="text" size="3" class="base" readonly="readonly" /></td><td><input type="text" size="3" class="pstat" readonly="readonly" /></td><td><input value="0" type="text" size="3" class="EV" /></td><td><input value="31" type="text" size="3" class="IV" /></td>
 		</tr>
 		<tr>
-		<td class="stat">SpD</td><td><input value="0" type="text" size="3" class="base" readonly></td><td><input type="text" size="3" class="pstat" readonly></td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		<td class="stat">SpD</td><td><input value="0" type="text" size="3" class="base" readonly="readonly" /></td><td><input type="text" size="3" class="pstat" readonly="readonly" /></td><td><input value="0" type="text" size="3" class="EV" /></td><td><input value="31" type="text" size="3" class="IV" /></td>
 		</tr>
 		<tr>
-		<td class="stat">Spe</td><td><input value="0" type="text" size="3" class="base" readonly></td><td><input type="text" size="3" class="pstat" readonly></td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		<td class="stat">Spe</td><td><input value="0" type="text" size="3" class="base" readonly="readonly" /></td><td><input type="text" size="3" class="pstat" readonly="readonly" /></td><td><input value="0" type="text" size="3" class="EV" /></td><td><input value="31" type="text" size="3" class="IV" /></td>
 		</tr>
 		<tr>
 		<td></td><td></td><td></td><td class="EVleft">508</td><td></td>
 		</tr>
 		</table>
 		</td>
-		<table>
-		<tr>
-		<td>
-		<td>
+		</table>
 		<table>
 		<tr>
 		<td>Pok&eacute;mon</td><td><select class="pkmn" onchange="choosemon(1)"></select></td>
@@ -851,7 +914,7 @@ SmogDex Teambuilder
 		<td>Ability</td><td><select class="ability"></td>
 		<td>Item</td><td><select class="item"></select></td>
 		<td>Nature</td><td><select class="nature"></select></td>
-		<td>Level</td><td><input value="" type="text" size="3" class="level"></td>
+		<td>Level</td><td><input value="" type="text" size="3" class="level" /></td>
 		</tr>
 		<tr>
 		<td>Move 1</td><td><select class="move"></select></td>
@@ -860,15 +923,13 @@ SmogDex Teambuilder
 		<td>Move 4</td><td><select class="move"></select></td>
 		</tr>
 		</table>
-		</td>
-		</tr>
-		</table>
+		<div class="HiddenP">Hidden Power <input value="Dark" type="text" class="HPtype" readonly="readonly" />&nbsp;<input value="70" type="text" class="HPbp" readonly="readonly" /></div>
 		<div class="dexbutton"><a href="/bw/pokemon/" target="_blank"></a></div>
-		</form>
-		<form class="buildpkmn">
+		</div>
+		<div class="buildpkmn">
 		<table>
 		<tr>
-		<td width=535><div class="spriteholder"></div></td>
+		<td style="width: 535px;"><div class="spriteholder"></div></td>
 		<td>
 		<table>
 		<tr>
@@ -879,32 +940,30 @@ SmogDex Teambuilder
 		<th>IVs</th>
 		</tr>
 		<tr>
-		<td class="stat">HP</td><td><input value="0" type="text" size="3" class="base" readonly></td><td><input type="text" size="3" class="pstat" readonly></td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		<td class="stat">HP</td><td><input value="0" type="text" size="3" class="base" readonly="readonly" /></td><td><input type="text" size="3" class="pstat" readonly="readonly" /></td><td><input value="0" type="text" size="3" class="EV" /></td><td><input value="31" type="text" size="3" class="IV" /></td>
 		</tr>
 		<tr>
-		<td class="stat">Atk</td><td><input value="0" type="text" size="3" class="base" readonly></td><td><input type="text" size="3" class="pstat" readonly></td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		<td class="stat">Atk</td><td><input value="0" type="text" size="3" class="base" readonly="readonly" /></td><td><input type="text" size="3" class="pstat" readonly="readonly" /></td><td><input value="0" type="text" size="3" class="EV" /></td><td><input value="31" type="text" size="3" class="IV" /></td>
 		</tr>
 		<tr>
-		<td class="stat">Def</td><td><input value="0" type="text" size="3" class="base" readonly></td><td><input type="text" size="3" class="pstat" readonly></td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		<td class="stat">Def</td><td><input value="0" type="text" size="3" class="base" readonly="readonly" /></td><td><input type="text" size="3" class="pstat" readonly="readonly" /></td><td><input value="0" type="text" size="3" class="EV" /></td><td><input value="31" type="text" size="3" class="IV" /></td>
 		</tr>
 		<tr>
-		<td class="stat">SpA</td><td><input value="0" type="text" size="3" class="base" readonly></td><td><input type="text" size="3" class="pstat" readonly></td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		<td class="stat">SpA</td><td><input value="0" type="text" size="3" class="base" readonly="readonly" /></td><td><input type="text" size="3" class="pstat" readonly="readonly" /></td><td><input value="0" type="text" size="3" class="EV" /></td><td><input value="31" type="text" size="3" class="IV" /></td>
 		</tr>
 		<tr>
-		<td class="stat">SpD</td><td><input value="0" type="text" size="3" class="base" readonly></td><td><input type="text" size="3" class="pstat" readonly></td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		<td class="stat">SpD</td><td><input value="0" type="text" size="3" class="base" readonly="readonly" /></td><td><input type="text" size="3" class="pstat" readonly="readonly" /></td><td><input value="0" type="text" size="3" class="EV" /></td><td><input value="31" type="text" size="3" class="IV" /></td>
 		</tr>
 		<tr>
-		<td class="stat">Spe</td><td><input value="0" type="text" size="3" class="base" readonly></td><td><input type="text" size="3" class="pstat" readonly></td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		<td class="stat">Spe</td><td><input value="0" type="text" size="3" class="base" readonly="readonly" /></td><td><input type="text" size="3" class="pstat" readonly="readonly" /></td><td><input value="0" type="text" size="3" class="EV" /></td><td><input value="31" type="text" size="3" class="IV" /></td>
 		</tr>
 		<tr>
 		<td></td><td></td><td></td><td class="EVleft">508</td><td></td>
 		</tr>
 		</table>
 		</td>
-		<table>
-		<tr>
-		<td>
-		<td>
+		</tr>
+		</table>
 		<table>
 		<tr>
 		<td>Pok&eacute;mon</td><td><select class="pkmn" onchange="choosemon(2)"></select></td>
@@ -915,7 +974,7 @@ SmogDex Teambuilder
 		<td>Ability</td><td><select class="ability"></td>
 		<td>Item</td><td><select class="item"></select></td>
 		<td>Nature</td><td><select class="nature"></select></td>
-		<td>Level</td><td><input value="" type="text" size="3" class="level"></td>
+		<td>Level</td><td><input value="" type="text" size="3" class="level" /></td>
 		</tr>
 		<tr>
 		<td>Move 1</td><td><select class="move"></select></td>
@@ -924,15 +983,13 @@ SmogDex Teambuilder
 		<td>Move 4</td><td><select class="move"></select></td>
 		</tr>
 		</table>
-		</td>
-		</tr>
-		</table>
+		<div class="HiddenP">Hidden Power <input value="Dark" type="text" class="HPtype" readonly="readonly" />&nbsp;<input value="70" type="text" class="HPbp" readonly="readonly" /></div>
 		<div class="dexbutton"><a href="/bw/pokemon/" target="_blank"></a></div>
-		</form>
-		<form class="buildpkmn">
+		</div>
+		<div class="buildpkmn">
 		<table>
 		<tr>
-		<td width=535><div class="spriteholder"></div></td>
+		<td style="width: 535px;"><div class="spriteholder"></div></td>
 		<td>
 		<table>
 		<tr>
@@ -943,43 +1000,41 @@ SmogDex Teambuilder
 		<th>IVs</th>
 		</tr>
 		<tr>
-		<td class="stat">HP</td><td><input value="0" type="text" size="3" class="base" readonly></td><td><input type="text" size="3" class="pstat" readonly></td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		<td class="stat">HP</td><td><input value="0" type="text" size="3" class="base" readonly="readonly" /></td><td><input type="text" size="3" class="pstat" readonly="readonly" /></td><td><input value="0" type="text" size="3" class="EV" /></td><td><input value="31" type="text" size="3" class="IV" /></td>
 		</tr>
 		<tr>
-		<td class="stat">Atk</td><td><input value="0" type="text" size="3" class="base" readonly></td><td><input type="text" size="3" class="pstat" readonly></td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		<td class="stat">Atk</td><td><input value="0" type="text" size="3" class="base" readonly="readonly" /></td><td><input type="text" size="3" class="pstat" readonly="readonly" /></td><td><input value="0" type="text" size="3" class="EV" /></td><td><input value="31" type="text" size="3" class="IV" /></td>
 		</tr>
 		<tr>
-		<td class="stat">Def</td><td><input value="0" type="text" size="3" class="base" readonly></td><td><input type="text" size="3" class="pstat" readonly></td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		<td class="stat">Def</td><td><input value="0" type="text" size="3" class="base" readonly="readonly" /></td><td><input type="text" size="3" class="pstat" readonly="readonly" /></td><td><input value="0" type="text" size="3" class="EV" /></td><td><input value="31" type="text" size="3" class="IV" /></td>
 		</tr>
 		<tr>
-		<td class="stat">SpA</td><td><input value="0" type="text" size="3" class="base" readonly></td><td><input type="text" size="3" class="pstat" readonly></td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		<td class="stat">SpA</td><td><input value="0" type="text" size="3" class="base" readonly="readonly" /></td><td><input type="text" size="3" class="pstat" readonly="readonly" /></td><td><input value="0" type="text" size="3" class="EV" /></td><td><input value="31" type="text" size="3" class="IV" /></td>
 		</tr>
 		<tr>
-		<td class="stat">SpD</td><td><input value="0" type="text" size="3" class="base" readonly></td><td><input type="text" size="3" class="pstat" readonly></td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		<td class="stat">SpD</td><td><input value="0" type="text" size="3" class="base" readonly="readonly" /></td><td><input type="text" size="3" class="pstat" readonly="readonly" /></td><td><input value="0" type="text" size="3" class="EV" /></td><td><input value="31" type="text" size="3" class="IV" /></td>
 		</tr>
 		<tr>
-		<td class="stat">Spe</td><td><input value="0" type="text" size="3" class="base" readonly></td><td><input type="text" size="3" class="pstat" readonly></td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		<td class="stat">Spe</td><td><input value="0" type="text" size="3" class="base" readonly="readonly" /></td><td><input type="text" size="3" class="pstat" readonly="readonly" /></td><td><input value="0" type="text" size="3" class="EV" /></td><td><input value="31" type="text" size="3" class="IV" /></td>
 		</tr>
 		<tr>
 		<td></td><td></td><td></td><td class="EVleft">508</td><td></td>
 		</tr>
 		</table>
 		</td>
-		<table>
-		<tr>
-		<td>
-		<td>
+		</tr>
+		</table>
 		<table>
 		<tr>
 		<td>Pok&eacute;mon</td><td><select class="pkmn" onchange="choosemon(3)"></select></td>
-		<td>Tier</td><td><select class="tier" onchange="choosetier(3)"</select></td>
+		<td>Tier</td><td><select class="tier" onchange="choosetier(3)"></select></td>
 		<td>Moveset</td><td><select class="set" onchange="findset(3)"></select></td>
 		</tr>
 		<tr>
 		<td>Ability</td><td><select class="ability"></td>
 		<td>Item</td><td><select class="item"></select></td>
 		<td>Nature</td><td><select class="nature"></select></td>
-		<td>Level</td><td><input value="" type="text" size="3" class="level"></td>
+		<td>Level</td><td><input value="" type="text" size="3" class="level" /></td>
 		</tr>
 		<tr>
 		<td>Move 1</td><td><select class="move"></select></td>
@@ -988,15 +1043,13 @@ SmogDex Teambuilder
 		<td>Move 4</td><td><select class="move"></select></td>
 		</tr>
 		</table>
-		</td>
-		</tr>
-		</table>
+		<div class="HiddenP">Hidden Power <input value="Dark" type="text" class="HPtype" readonly="readonly" />&nbsp;<input value="70" type="text" class="HPbp" readonly="readonly" /></div>
 		<div class="dexbutton"><a href="/bw/pokemon/" target="_blank"></a></div>
-		</form>
-		<form class="buildpkmn">
+		</div>
+		<div class="buildpkmn">
 		<table>
 		<tr>
-		<td width=535><div class="spriteholder"></div></td>
+		<td style="width: 535px;"><div class="spriteholder"></div></td>
 		<td>
 		<table>
 		<tr>
@@ -1007,32 +1060,30 @@ SmogDex Teambuilder
 		<th>IVs</th>
 		</tr>
 		<tr>
-		<td class="stat">HP</td><td><input value="0" type="text" size="3" class="base" readonly></td><td><input type="text" size="3" class="pstat" readonly></td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		<td class="stat">HP</td><td><input value="0" type="text" size="3" class="base" readonly="readonly" /></td><td><input type="text" size="3" class="pstat" readonly="readonly" /></td><td><input value="0" type="text" size="3" class="EV" /></td><td><input value="31" type="text" size="3" class="IV" /></td>
 		</tr>
 		<tr>
-		<td class="stat">Atk</td><td><input value="0" type="text" size="3" class="base" readonly></td><td><input type="text" size="3" class="pstat" readonly></td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		<td class="stat">Atk</td><td><input value="0" type="text" size="3" class="base" readonly="readonly" /></td><td><input type="text" size="3" class="pstat" readonly="readonly" /></td><td><input value="0" type="text" size="3" class="EV" /></td><td><input value="31" type="text" size="3" class="IV" /></td>
 		</tr>
 		<tr>
-		<td class="stat">Def</td><td><input value="0" type="text" size="3" class="base" readonly></td><td><input type="text" size="3" class="pstat" readonly></td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		<td class="stat">Def</td><td><input value="0" type="text" size="3" class="base" readonly="readonly" /></td><td><input type="text" size="3" class="pstat" readonly="readonly" /></td><td><input value="0" type="text" size="3" class="EV" /></td><td><input value="31" type="text" size="3" class="IV" /></td>
 		</tr>
 		<tr>
-		<td class="stat">SpA</td><td><input value="0" type="text" size="3" class="base" readonly></td><td><input type="text" size="3" class="pstat" readonly></td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		<td class="stat">SpA</td><td><input value="0" type="text" size="3" class="base" readonly="readonly" /></td><td><input type="text" size="3" class="pstat" readonly="readonly" /></td><td><input value="0" type="text" size="3" class="EV" /></td><td><input value="31" type="text" size="3" class="IV" /></td>
 		</tr>
 		<tr>
-		<td class="stat">SpD</td><td><input value="0" type="text" size="3" class="base" readonly></td><td><input type="text" size="3" class="pstat" readonly></td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		<td class="stat">SpD</td><td><input value="0" type="text" size="3" class="base" readonly="readonly" /></td><td><input type="text" size="3" class="pstat" readonly="readonly" /></td><td><input value="0" type="text" size="3" class="EV" /></td><td><input value="31" type="text" size="3" class="IV" /></td>
 		</tr>
 		<tr>
-		<td class="stat">Spe</td><td><input value="0" type="text" size="3" class="base" readonly></td><td><input type="text" size="3" class="pstat" readonly></td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		<td class="stat">Spe</td><td><input value="0" type="text" size="3" class="base" readonly="readonly" /></td><td><input type="text" size="3" class="pstat" readonly="readonly" /></td><td><input value="0" type="text" size="3" class="EV" /></td><td><input value="31" type="text" size="3" class="IV" /></td>
 		</tr>
 		<tr>
 		<td></td><td></td><td></td><td class="EVleft">508</td><td></td>
 		</tr>
 		</table>
 		</td>
-		<table>
-		<tr>
-		<td>
-		<td>
+		</tr>
+		</table>
 		<table>
 		<tr>
 		<td>Pok&eacute;mon</td><td><select class="pkmn" onchange="choosemon(4)"></select></td>
@@ -1043,7 +1094,7 @@ SmogDex Teambuilder
 		<td>Ability</td><td><select class="ability"></td>
 		<td>Item</td><td><select class="item"></select></td>
 		<td>Nature</td><td><select class="nature"></select></td>
-		<td>Level</td><td><input value="" type="text" size="3" class="level"></td>
+		<td>Level</td><td><input value="" type="text" size="3" class="level" /></td>
 		</tr>
 		<tr>
 		<td>Move 1</td><td><select class="move"></select></td>
@@ -1052,15 +1103,13 @@ SmogDex Teambuilder
 		<td>Move 4</td><td><select class="move"></select></td>
 		</tr>
 		</table>
-		</td>
-		</tr>
-		</table>
+		<div class="HiddenP">Hidden Power <input value="Dark" type="text" class="HPtype" readonly="readonly" />&nbsp;<input value="70" type="text" class="HPbp" readonly="readonly" /></div>
 		<div class="dexbutton"><a href="/bw/pokemon/" target="_blank"></a></div>
-		</form>
-		<form class="buildpkmn">
+		</div>
+		<div class="buildpkmn">
 		<table>
 		<tr>
-		<td width=535><div class="spriteholder"></div></td>
+		<td style="width: 535px;"><div class="spriteholder"></div></td>
 		<td>
 		<table>
 		<tr>
@@ -1071,32 +1120,30 @@ SmogDex Teambuilder
 		<th>IVs</th>
 		</tr>
 		<tr>
-		<td class="stat">HP</td><td><input value="0" type="text" size="3" class="base" readonly></td><td><input type="text" size="3" class="pstat" readonly></td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		<td class="stat">HP</td><td><input value="0" type="text" size="3" class="base" readonly="readonly" /></td><td><input type="text" size="3" class="pstat" readonly="readonly" /></td><td><input value="0" type="text" size="3" class="EV" /></td><td><input value="31" type="text" size="3" class="IV" /></td>
 		</tr>
 		<tr>
-		<td class="stat">Atk</td><td><input value="0" type="text" size="3" class="base" readonly></td><td><input type="text" size="3" class="pstat" readonly></td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		<td class="stat">Atk</td><td><input value="0" type="text" size="3" class="base" readonly="readonly" /></td><td><input type="text" size="3" class="pstat" readonly="readonly" /></td><td><input value="0" type="text" size="3" class="EV" /></td><td><input value="31" type="text" size="3" class="IV" /></td>
 		</tr>
 		<tr>
-		<td class="stat">Def</td><td><input value="0" type="text" size="3" class="base" readonly></td><td><input type="text" size="3" class="pstat" readonly></td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		<td class="stat">Def</td><td><input value="0" type="text" size="3" class="base" readonly="readonly" /></td><td><input type="text" size="3" class="pstat" readonly="readonly" /></td><td><input value="0" type="text" size="3" class="EV" /></td><td><input value="31" type="text" size="3" class="IV" /></td>
 		</tr>
 		<tr>
-		<td class="stat">SpA</td><td><input value="0" type="text" size="3" class="base" readonly></td><td><input type="text" size="3" class="pstat" readonly></td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		<td class="stat">SpA</td><td><input value="0" type="text" size="3" class="base" readonly="readonly" /></td><td><input type="text" size="3" class="pstat" readonly="readonly" /></td><td><input value="0" type="text" size="3" class="EV" /></td><td><input value="31" type="text" size="3" class="IV" /></td>
 		</tr>
 		<tr>
-		<td class="stat">SpD</td><td><input value="0" type="text" size="3" class="base" readonly></td><td><input type="text" size="3" class="pstat" readonly></td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		<td class="stat">SpD</td><td><input value="0" type="text" size="3" class="base" readonly="readonly" /></td><td><input type="text" size="3" class="pstat" readonly="readonly" /></td><td><input value="0" type="text" size="3" class="EV" /></td><td><input value="31" type="text" size="3" class="IV" /></td>
 		</tr>
 		<tr>
-		<td class="stat">Spe</td><td><input value="0" type="text" size="3" class="base" readonly></td><td><input type="text" size="3" class="pstat" readonly></td><td><input value="0" type="text" size="3" class="EV"></td><td><input value="31" type="text" size="3" class="IV"></td>
+		<td class="stat">Spe</td><td><input value="0" type="text" size="3" class="base" readonly="readonly" /></td><td><input type="text" size="3" class="pstat" readonly="readonly" /></td><td><input value="0" type="text" size="3" class="EV" /></td><td><input value="31" type="text" size="3" class="IV" /></td>
 		</tr>
 		<tr>
 		<td></td><td></td><td></td><td class="EVleft">508</td><td></td>
 		</tr>
 		</table>
 		</td>
-		<table>
-		<tr>
-		<td>
-		<td>
+		</tr>
+		</table>
 		<table>
 		<tr>
 		<td>Pok&eacute;mon</td><td><select class="pkmn" onchange="choosemon(5)"></select></td>
@@ -1107,7 +1154,7 @@ SmogDex Teambuilder
 		<td>Ability</td><td><select class="ability"></td>
 		<td>Item</td><td><select class="item"></select></td>
 		<td>Nature</td><td><select class="nature"></select></td>
-		<td>Level</td><td><input value="" type="text" size="3" class="level"></td>
+		<td>Level</td><td><input value="" type="text" size="3" class="level" /></td>
 		</tr>
 		<tr>
 		<td>Move 1</td><td><select class="move"></select></td>
@@ -1116,14 +1163,40 @@ SmogDex Teambuilder
 		<td>Move 4</td><td><select class="move"></select></td>
 		</tr>
 		</table>
-		</td>
-		</tr>
-		</table>
+		<div class="HiddenP">Hidden Power <input value="Dark" type="text" class="HPtype" readonly="readonly" />&nbsp;<input value="70" type="text" class="HPbp" readonly="readonly" /></div>
 		<div class="dexbutton"><a href="/bw/pokemon/" target="_blank"></a></div>
-		</form>
+		</div>
 		</li></ul>
 		<ul id="exporter" class="hide"><li>
 		<input type="button" onclick="exportteam()" value="Export!" style="margin-left: 10px; margin-bottom:5px;" /><br />
-		<textarea id="export"></textarea></li>
+		<textarea id="export"></textarea></li></ul>
+		<ul id="help" class="hide"><li>
+		<div class="help">
+		<h2>Introduction</h2>
+		
+		<p>The SmogDex Teambuilder is an online Pok&eacute;mon teambuilder that uses analyses from the Smogon Strategy Pok&eacute;dex. You can pick movesets from the analyses to use in this teambuilder.</p>
+		
+		<h2>How to Use</h2>
+		
+		<p>This teambuilder gives you the option of using movesets straight from the Smogon Strategy Pok&eacute;dex and allows you to modify the movesets from there. Here's out to start building:</p>
+		
+		<ul><li>Pick a Pok&eacute;mon that you want, in any order.</li>
+		<li>You can change the tier from which the analysis will be taken from. For example, if you want to get a moveset from Azelf's BW OU analysis, you change the tier to Overused. The default tab chosen would be the tier the Pok&eacute;mon is currently in.</li>
+		<li>Pick the respective moveset and the teambuilder will automatically fill in all the options for you; the EVs, IVs, Ability, Item, Nature, Level, and Moves will be filled.</li>
+		<li>The Ability, Item, Nature, and Moves options all put the respective recommended options at the top so you can differentiate between those in the moveset and the other remaining options.</li>
+		<li>Repeat till you're done; you can opt to just fill in a few Pok&eacute;mon as well and leave the remaining ones blank.</li>
+		<li>Click the "Exporter" tab at the top and click the "Export!" button. It will export all the Poke&eacute;mon you entered if they have an ability and at least a move chosen.</li></ul>
+		
+		<h2>Features</h2>
+		
+		<p>Besides using movesets from the Smogon Strategy Pok&eacute;dex, the SmogDex Teambuilder has a few other features as well. The stats of the Pok&eacute;mon are highlighted with green and red depending on the Pok&eacute;mon's nature. The stat which is boosted by the nature is highlighted as green; conversely, the stat hindered by the nature is highlighted as red. All individual EVs for each stat is capped at 252. A Pok&eacute;mon may only use up to 508 EVs. If you exceed the limit, the number below the EVs column will turn red to indicate that. It doesn't prevent you from exporting a Pok&eacute;mon with more than 508 EVs though. The "Go to Pok&eacute;dex!" button will lead you to the analysis of the Pok&eacute;mon chosen. Don't worry about losing your changes on the teambuilder! It opens the page in a new tab. It will also bring you directly the the moveset if you have chosen one. If a Pok&eacute;mon is not chosen, it will lead you to the main page of the Strategy Pok&eacute;dex. You can also reset a Pok&eacute;mon by changing the Pok&eacute;mon option to blank, which is the first option. Most of the features are already implemented, but stay tuned for more updates!</p>
+		
+		<h2>Support</h2>
+		
+		<p>If you have any other questions or wish to report a bug, you may refer to <a href="/forums/threads/3487037/" target="_blank">this thread</a>. Feel free to make suggestions as well! You can also refer to the thread for upcoming updates :)</p>
+		
+		<p>I hope you enjoyed using this teambuilder! ^_^<br /></p></div>
+	
+		</li></ul>
 	</div>
 	</div>
