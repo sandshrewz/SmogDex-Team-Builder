@@ -454,6 +454,40 @@ SmogDex Teambuilder
 			$($('.buildpkmn')[i]).find('.HPtype').val(Type[TypeNum]);
 			$($('.buildpkmn')[i]).find('.HPbp').val(Power);
 		}
+		function setHiddenPower(i) {
+			//this function is only activated when the moveset does not specify IVs	
+			var hasHiddenPower = false;
+			var setMoves = [];
+			var HiddenPowerIVs = {
+				Bug: [31,30,30,31,30,31],
+				Dark: [31,31,31,31,31,31],
+				Dragon: [31,30,31,31,31,31],
+				Flying: [30,30,30,30,30,31],
+				Ghost: [31,31,30,31,30,31],
+				Ground: [31,31,31,31,31,31],
+				Poison: [31,31,31,30,30,31],
+				Psychic: [31,30,31,31,31,30],
+				Rock: [31,31,30,31,30,30],
+				Steel: [31,31,31,31,30,31],
+				Water: [31,30,30,30,31,31],
+				Electric: [31,31,31,30,31,31],
+				Fighting: [31,31,30,30,30,30],
+				Fire: [31,30,31,30,31,30],
+				Grass: [31,30,31,30,31,31],
+				Ice: [31,30,30,31,31,31]
+			};
+			for (var a=0; a<4; a++) {
+				if ($($($('.buildpkmn')[i]).find('.move')[a]).val().substr(0,13) === 'Hidden Power ') {
+					hasHiddenPower = true;
+					var type = $($($('.buildpkmn')[i]).find('.move')[a]).val().substr(13);
+				}
+			}
+			if (hasHiddenPower === true) {
+				for (var b=0; b<6; b++) {
+					$($($('.buildpkmn')[i]).find('.IV')[b]).val(HiddenPowerIVs[type][b]);
+				}
+			}
+		}
 		function step1(x, pkmnno) {
 			var spritehtml = $(x).find('.sprite');
 			$('.buildpkmn').eq(pkmnno).find('.spriteholder').html(spritehtml);
@@ -696,7 +730,8 @@ SmogDex Teambuilder
 					IVset(IVarray, StatArray);
 				}
 				if (!IV) {
-					$('.IV').each(function() {$(this).val('31');});
+					$($('.buildpkmn')[g]).find('.IV').each(function() {$(this).val('31');});
+					setHiddenPower(g);
 				}
 
 				var tier = $($('.tier')[g]).val();
@@ -739,7 +774,7 @@ SmogDex Teambuilder
 				var moves = [];
 				for (var u=0; u<4; u++) {			
 					if ($('.buildpkmn').eq(i).find('.move option:selected').eq(u).val()) {
-						moves.push($('.buildpkmn').eq(i).find('.move option:selected').eq(u).val());
+						moves.push($($($('.buildpkmn')[i]).find('.move')[u]).val());
 					}
 				}
 				if (PokemonName && $($('.buildpkmn')[i]).find('.ability').val() && moves.length > 0) {
@@ -748,27 +783,27 @@ SmogDex Teambuilder
 				var nature = $($('.buildpkmn')[i]).find('.nature').val();
 				var EVArray = [];
 				for (var c=0; c<6; c++) {
-					EVArray.push($('.buildpkmn').eq(i).find('.EV').eq(c).val());			
+					EVArray.push(parseInt($($($('.buildpkmn')[i]).find('.EV')[c]).val()));			
 				}
 				var EVSpread = '';
 				for (var j=0; j<6; j++) {
-					if (EVArray[j] != 0) {
+					if (EVArray[j] !== 0) {
 					EVSpread += EVArray[j] + ' ' + StatArray[j] + ' / ';
 					}
 				}
-				EVSpread = EVSpread.slice(0,EVSpread.length-3);
+				EVSpread = EVSpread.substr(0,EVSpread.length-3);
 				var IVArray = [];
 				for (var q=0; q<6; q++) {
-					IVArray.push($('.buildpkmn').eq(i).find('.IV').eq(q).val());			
+					IVArray.push(parseInt($($($('.buildpkmn')[i]).find('.IV')[q]).val()));			
 				}
 				var IVSpread = '';
 				for (var e=0; e<6; e++) {
-					if (IVArray[e] != 31) {
+					if (IVArray[e] !== 31) {
 					IVSpread += IVArray[e] + ' ' + StatArray[e] + ' / ';
 					}
 				}
 				if (IVSpread.length > 5) {
-					IVSpread = IVSpread.slice(0,IVSpread.length-3);
+					IVSpread = IVSpread.substr(0,IVSpread.length-3);
 				}
 				var level = $($('.level')[i]).val();
 				exporttext += PokemonName + ' @ ' + item +'\n';
