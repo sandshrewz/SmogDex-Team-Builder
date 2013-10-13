@@ -134,7 +134,18 @@ SmogDex Teambuilder
 	}
 	.help {
 		margin: 10px 10px !important;
-	}		
+	}
+	#simcheck {
+		font-weight: normal !important;
+		float: right;
+	}
+	fieldset {
+		border: 1px solid #B1AEA2 ;
+		padding: 1em;
+		width: 170px;
+		margin-left: 10px;
+		margin-right: 200px;
+	}
 	</style>
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 	<script type="text/javascript" src="http://css-tricks.com/examples/OrganicTabs/js/organictabs.jquery.js"></script>
@@ -258,6 +269,9 @@ SmogDex Teambuilder
 			else {
 				$(this).find('.dexbutton > a').text('Go to Analysis!');
 			}
+			$('input[name=sim]').each(function() { $(this).change( function () {
+				exportteam();
+			})});
 			})})();
 		});
 		function choosemon(pkmnno) {
@@ -822,6 +836,12 @@ SmogDex Teambuilder
 		function exportteam() {
 			var exporttext = '';
 			var StatArray = ['HP', 'Atk', 'Def', 'SAtk', 'SDef', 'Spd'];
+			if ($('input[name=sim]:checked').val() === 'PS') {
+				var isShowdown = true;
+			}
+			else {
+				var isShowdown = false;
+			}
 			for (var i=0; i<6; i++) {
 				var PokemonName =  $($('.buildpkmn')[i]).find('.pkmn').val();
 				var moves = [];
@@ -849,30 +869,38 @@ SmogDex Teambuilder
 				for (var q=0; q<6; q++) {
 					IVArray.push(parseInt($($($('.buildpkmn')[i]).find('.IV')[q]).val()));			
 				}
-				var IVSpread = '';
-				for (var e=0; e<6; e++) {
-					if (IVArray[e] !== 31) {
-					IVSpread += IVArray[e] + ' ' + StatArray[e] + ' / ';
+				//exemption for Pokemon Online export
+				if (isShowdown) {
+					var IVSpread = '';
+					for (var e=0; e<6; e++) {
+						if (IVArray[e] !== 31) {
+						IVSpread += IVArray[e] + ' ' + StatArray[e] + ' / ';
+						}
 					}
+					if (IVSpread.length > 5) {
+						IVSpread = IVSpread.substr(0,IVSpread.length-3);
+					}
+					var level = $($('.level')[i]).val();
 				}
-				if (IVSpread.length > 5) {
-					IVSpread = IVSpread.substr(0,IVSpread.length-3);
-				}
-				var level = $($('.level')[i]).val();
 				exporttext += PokemonName + ' @ ' + item +'\n';
 				exporttext += 'Trait: ' + ability +'\n';
-				if (level !== '100') {
+				if (isShowdown && level !== '100') {
 					exporttext += 'Level: ' + level +'\n';
 				}
 				if (EVSpread.length > 0) {
 					exporttext += 'EVs: ' + EVSpread + '\n';
 				}
-				if (IVSpread.length > 0) {
+				if (isShowdown && IVSpread.length > 0 ) {
 					exporttext += 'IVs: ' + IVSpread + '\n';
 				}
 				exporttext += nature + ' Nature\n';
 				for (var n=0; n<moves.length; n++) {
+					if (moves[n].substr(0,13) === 'Hidden Power ' && !isShowdown) {
+						exporttext += '- Hidden Power ' + '[' + moves[n].substr(13) + ']\n';
+					}
+					else {
 						exporttext += '- ' + moves[n] + '\n';
+					}
 				}
 				exporttext += '\n';
 			}
@@ -1257,6 +1285,11 @@ SmogDex Teambuilder
 		</li></ul>
 		<ul id="exporter" class="hide"><li>
 		<input type="button" onclick="exportteam()" value="Export!" style="margin-left: 10px; margin-bottom:5px;" /><br />
+		<div id="simcheck">
+		<fieldset><legend>Export to:</legend>
+		<input type="radio" name="sim" value="PS" checked="checked"> Pok&eacute;mon Showdown!<br />
+		<input type="radio" name="sim" value="PO"> Pokemon Online<br />
+		</fieldset></div>		
 		<textarea id="export"></textarea></li></ul>
 		<ul id="help" class="hide"><li>
 		<div class="help">
